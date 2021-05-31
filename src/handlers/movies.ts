@@ -17,22 +17,25 @@ const show = async (req: Request, res: Response) => {
   console.log(req.body.id);
 };
 
-// const create = async (req: Request, res: Response) => {
-//   try {
-//     const movie: Movie = {
-//       title: req.body.title,
-//       duration: req.body.duration,
-//       director: req.body.director,
-//       type: req.body.type,
-//       summary: req.body.summary,
-//     };
-//     const newMovie = await store.create(movie);
-//     res.json(newMovie);
-//   } catch (err) {
-//     res.status(400);
-//     res.json(err);
-//   }
-// };
+const create = async (req: Request, res: Response) => {
+  try {
+    const movie: Movie = {
+      id: req.body.id,
+      title: req.body.title,
+      duration: req.body.duration,
+      director: req.body.director,
+      type: req.body.type,
+      summary: req.body.summary,
+    };
+    const newMovie = await store.create(movie);
+    console.log('create route.');
+    res.send('create route.');
+    res.json(newMovie);
+  } catch (err) {
+    res.status(400);
+    res.json(err);
+  }
+};
 
 const deleteMovie = async (req: Request, res: Response) => {
   const deleted = await store.delete(req.body.id);
@@ -42,7 +45,7 @@ const deleteMovie = async (req: Request, res: Response) => {
 const movie_routes = (app: express.Application) => {
   app.get('/allmovies', index);
   app.get('/allmovies/:id', show);
-  //   app.post('/allmovies', create);
+  app.post('/allmovies', create);
   app.delete('/deletemovie/:id', deleteMovie);
 };
 
