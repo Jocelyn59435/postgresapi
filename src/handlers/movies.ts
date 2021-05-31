@@ -11,10 +11,14 @@ const index = async (_req: Request, res: Response) => {
 };
 
 const show = async (req: Request, res: Response) => {
-  const movie = await store.show(req.body.id);
-  res.json(movie);
-  console.log('show route');
-  console.log(req.body.id);
+  try {
+    const movie = await store.show(req.body.id);
+    res.json(movie);
+    console.log('show route');
+    console.log(req.body.id);
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const create = async (req: Request, res: Response) => {
@@ -29,17 +33,23 @@ const create = async (req: Request, res: Response) => {
     };
     const newMovie = await store.create(movie);
     console.log('create route.');
-    res.send('create route.');
     res.json(newMovie);
   } catch (err) {
+    console.log(err);
     res.status(400);
     res.json(err);
   }
 };
 
 const deleteMovie = async (req: Request, res: Response) => {
-  const deleted = await store.delete(req.body.id);
-  res.json(deleted);
+  try {
+    const deleted = await store.delete(req.body.id);
+    res.json(deleted);
+  } catch (err) {
+    console.log(err);
+    res.status(400);
+    res.json(err);
+  }
 };
 
 const movie_routes = (app: express.Application) => {

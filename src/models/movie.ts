@@ -39,7 +39,7 @@ export class MovieStore {
       const sql =
         'INSERT INTO movies (title, duration, director, type, summary) VALUES($1, $2, $3, $4, $5) RETURNING *';
       // @ts-ignore
-      const conn = await Client.connect();
+      const conn = await client.connect();
 
       const result = await conn.query(sql, [
         m.title,
@@ -61,9 +61,9 @@ export class MovieStore {
 
   async delete(id: string): Promise<Movie> {
     try {
-      const sql = 'DELETE FROM books WHERE id=($1)';
+      const sql = 'DELETE FROM movies WHERE id=($1)';
       // @ts-ignore
-      const conn = await Client.connect();
+      const conn = await client.connect();
 
       const result = await conn.query(sql, [id]);
 
