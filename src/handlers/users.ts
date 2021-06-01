@@ -1,5 +1,4 @@
 import express, { Request, Response } from 'express';
-import client from '../database';
 import { User, UserStore } from '../models/user';
 
 const store = new UserStore();
@@ -9,7 +8,7 @@ const create = async (req: Request, res: Response) => {
   try {
     const user: User = {
       id: req.body.id,
-      username: req.body.username,
+      username: req.body['username'],
       password_digest: req.body['password_digest'],
     };
     const newUser = await store.create(user);

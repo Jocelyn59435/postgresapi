@@ -12,12 +12,14 @@ const index = async (_req: Request, res: Response) => {
 
 const show = async (req: Request, res: Response) => {
   try {
-    const movie = await store.show(req.body.id);
+    const movie = await store.show(req.params.id);
     res.json(movie);
     console.log('show route');
     console.log(req.body.id);
   } catch (err) {
     console.log(err);
+    res.status(400);
+    res.json(err);
   }
 };
 
@@ -43,7 +45,9 @@ const create = async (req: Request, res: Response) => {
 
 const deleteMovie = async (req: Request, res: Response) => {
   try {
-    const deleted = await store.delete(req.body.id);
+    const deleted = await store.delete(req.params.id);
+    console.log('delete route.');
+    console.log(req.params.id);
     res.json(deleted);
   } catch (err) {
     console.log(err);
