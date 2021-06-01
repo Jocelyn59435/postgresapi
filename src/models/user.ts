@@ -4,8 +4,8 @@ import bcrypt from 'bcrypt';
 
 dotenv.config();
 
-const pepper: string = process.env.BCRYPT_PASSWORD;
-const saltRounds: string = process.env.SALT_ROUNDS;
+const pepper: string = process.env.BCRYPT_PASSWORD!;
+const saltRounds: string = process.env.SALT_ROUNDS!;
 
 export type User = {
   id: Number;

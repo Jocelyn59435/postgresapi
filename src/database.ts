@@ -13,7 +13,6 @@ const {
 
 let client: any;
 console.log(ENV);
-console.log(process.env);
 if (ENV === 'test') {
   client = new Pool({
     host: POSTGRES_HOST,
