@@ -1,36 +1,44 @@
 import express, { Request, Response } from 'express';
 import { User, UserStore } from '../models/user';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const tokensecret: string = process.env.TOKEN_SECRET!;
 
 const store = new UserStore();
 
 // express handler function
 const create = async (req: Request, res: Response) => {
+  const user: User = {
+    username: req.body['username'],
+    password_digest: req.body['password_digest'],
+  };
   try {
-    const user: User = {
-      id: req.body.id,
-      username: req.body['username'],
-      password_digest: req.body['password_digest'],
-    };
     const newUser = await store.create(user);
+    var token = jwt.sign({ user: newUser }, tokensecret);
     console.log('create route.');
-    res.json(newUser);
+    res.json(token);
   } catch (err) {
-    console.log(err);
     res.status(400);
     res.json(err);
   }
 };
 
 const authenticate = async (req: Request, res: Response) => {
+  const user: User = {
+    username: req.body['username'],
+    password_digest: req.body['password_digest'],
+  };
   try {
-    const user = await store.authenticate(req.body.username, req.body.password);
-    if (user) {
-      res.json(user);
-    } else {
-      res.send('The user input is not validate.');
-    }
+    const u = await store.authenticate(req.body.username, req.body.password);
+    var token = jwt.sign({ user: u }, tokensecret);
+    res.json(token);
   } catch (err) {
     console.log(err);
+    res.status(401);
+    res.json({ err });
   }
 };
 

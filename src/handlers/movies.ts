@@ -1,6 +1,11 @@
 import express, { Request, Response } from 'express';
 import { Movie, MovieStore } from '../models/movie';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 
+dotenv.config();
+
+const tokensecret: string = process.env.TOKEN_SECRET!;
 const store = new MovieStore();
 
 // express handler function
@@ -25,6 +30,16 @@ const show = async (req: Request, res: Response) => {
 
 const create = async (req: Request, res: Response) => {
   try {
+    const authorizationHeader = req.headers.authorization!;
+    const token = authorizationHeader.split(' ')[1];
+    jwt.verify(token, tokensecret);
+  } catch (err) {
+    res.status(401);
+    res.json(`Invalid token ${err}`);
+    return;
+  }
+
+  try {
     const movie: Movie = {
       id: req.body.id,
       title: req.body.title,
@@ -33,6 +48,7 @@ const create = async (req: Request, res: Response) => {
       type: req.body.type,
       summary: req.body.summary,
     };
+
     const newMovie = await store.create(movie);
     console.log('create route.');
     res.json(newMovie);

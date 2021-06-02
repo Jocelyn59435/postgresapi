@@ -1,4 +1,5 @@
 import client from '../database';
+import jwt from 'jsonwebtoken';
 
 export type Movie = {
   id: Number;

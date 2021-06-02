@@ -8,7 +8,6 @@ const pepper: string = process.env.BCRYPT_PASSWORD!;
 const saltRounds: string = process.env.SALT_ROUNDS!;
 
 export type User = {
-  id: Number;
   username: string;
   password_digest: string;
 };
