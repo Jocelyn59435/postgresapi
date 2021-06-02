@@ -20,7 +20,6 @@ const show = async (req: Request, res: Response) => {
     const movie = await store.show(req.params.id);
     res.json(movie);
     console.log('show route');
-    console.log(req.body.id);
   } catch (err) {
     console.log(err);
     res.status(400);
