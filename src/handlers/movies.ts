@@ -31,6 +31,7 @@ const create = async (req: Request, res: Response) => {
   try {
     const authorizationHeader = req.headers.authorization!;
     const token = authorizationHeader.split(' ')[1];
+    // When verifying token, need to add token secret by JWT debugger
     jwt.verify(token, tokensecret);
   } catch (err) {
     res.status(401);

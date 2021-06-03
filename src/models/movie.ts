@@ -1,8 +1,7 @@
 import client from '../database';
-import jwt from 'jsonwebtoken';
 
 export type Movie = {
-  id: Number;
+  id: number;
   title: string;
   duration: number;
   director: string;
@@ -39,7 +38,7 @@ export class MovieStore {
     try {
       const sql =
         'INSERT INTO movies (title, duration, director, type, summary) VALUES($1, $2, $3, $4, $5) RETURNING *';
-      // @ts-ignore
+
       const conn = await client.connect();
 
       const result = await conn.query(sql, [
@@ -63,7 +62,7 @@ export class MovieStore {
   async delete(id: string): Promise<Movie> {
     try {
       const sql = 'DELETE FROM movies WHERE id=($1)';
-      // @ts-ignore
+
       const conn = await client.connect();
 
       const result = await conn.query(sql, [id]);

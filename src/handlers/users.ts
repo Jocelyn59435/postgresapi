@@ -12,12 +12,14 @@ const store = new UserStore();
 // express handler function
 const create = async (req: Request, res: Response) => {
   const user: User = {
-    username: req.body['username'],
-    password_digest: req.body['password_digest'],
+    id: req.body.id,
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
+    user_password: req.body.user_password,
   };
   try {
     const newUser = await store.create(user);
-    var token = jwt.sign({ user: newUser }, tokensecret);
+    const token = jwt.sign({ user: newUser }, tokensecret);
     console.log('create route.');
     res.json(token);
   } catch (err) {
@@ -28,12 +30,14 @@ const create = async (req: Request, res: Response) => {
 
 const authenticate = async (req: Request, res: Response) => {
   const user: User = {
-    username: req.body['username'],
-    password_digest: req.body['password_digest'],
+    id: req.body.id,
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
+    user_password: req.body.user_password,
   };
   try {
-    const u = await store.authenticate(req.body.username, req.body.password);
-    var token = jwt.sign({ user: u }, tokensecret);
+    const u = await store.authenticate(user.firstname, user.user_password);
+    const token = jwt.sign({ user: u }, tokensecret);
     res.json(token);
   } catch (err) {
     console.log(err);
@@ -42,7 +46,7 @@ const authenticate = async (req: Request, res: Response) => {
   }
 };
 
-const user_routes = (app: express.Application) => {
+const user_routes = (app: express.Application): void => {
   app.post('/createuser', create);
   app.post('/checkuser', authenticate);
 };
