@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import { Product, ProductStore } from '../models/product';
-import verifyAuthToken from './users';
+import { verifyAuthToken } from './users';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -66,7 +66,7 @@ const product_routes = (app: express.Application): void => {
   app.get('/products', index);
   app.get('/products/:id', show);
   app.post('/products', verifyAuthToken, create);
-  app.delete('/deleteproduct/:id', deleteproduct);
+  app.delete('/deleteproduct/:id', verifyAuthToken, deleteproduct);
 };
 
 export default product_routes;

@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import product_routes from './handlers/products';
-import user_routes from './handlers/users';
+import { user_routes } from './handlers/users';
 
 const app: express.Application = express();
 const address = '0.0.0.0:3000';

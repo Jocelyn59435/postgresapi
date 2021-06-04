@@ -97,4 +97,4 @@ const user_routes = (app: express.Application): void => {
   app.get('/users/:id', verifyAuthToken, show);
 };
 
-export default { user_routes, verifyAuthToken };
+export { user_routes, verifyAuthToken };
