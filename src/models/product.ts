@@ -67,9 +67,9 @@ export class ProductStore {
       const result = await conn.query(sql, [id]);
 
       const product = result.rows[0];
-      // if (!product) {
-      //   throw new Error('No product found to delete.');
-      // }
+      if (!product) {
+        throw new Error('No product found to delete.');
+      }
       console.log(product);
       conn.release();
 
