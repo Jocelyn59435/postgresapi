@@ -31,6 +31,7 @@ const create = async (req, res) => {
 const index = async (_req, res) => {
     try {
         const users = await store.index();
+        console.log(users);
         res.json(users);
         console.log('Index user route.');
     }

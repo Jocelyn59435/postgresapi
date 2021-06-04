@@ -8,6 +8,6 @@ describe('User Model', () => {
     });
     it('index method should return a list of items', async () => {
         const result = await store.index();
-        expect(result).toEqual([]);
+        expect(result.length).toBeGreaterThanOrEqual(1);
     });
 });
