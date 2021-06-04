@@ -37,7 +37,7 @@ const index = async (_req: Request, res: Response) => {
     console.log('Index user route.');
   } catch (err) {
     res.status(400);
-    throw new Error(`Could not get users: ${err.detail}.`);
+    res.json(err.message);
   }
 };
 
@@ -48,7 +48,7 @@ const show = async (req: Request, res: Response) => {
     console.log('Show user route.');
   } catch (err) {
     res.status(400);
-    throw new Error(`Could not get user ${req.params.id}: ${err.detail}.`);
+    res.json(err.message);
   }
 };
 

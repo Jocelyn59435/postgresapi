@@ -26,7 +26,11 @@ export class ProductStore {
       const conn = await client.connect();
       const result = await conn.query(sql, [id]);
       conn.release();
-      return result.rows[0];
+      if (result.rows[0]) {
+        return result.rows[0];
+      } else {
+        throw new Error(`No records for product ${id}.`);
+      }
     } catch (err) {
       throw new Error(`Could not find product ${id}. Error: ${err}`);
     }
@@ -58,22 +62,26 @@ export class ProductStore {
     }
   }
 
-  async delete(id: string): Promise<Product> {
+  async delete(id: string): Promise<string> {
     try {
       const sql = 'DELETE FROM products WHERE id=($1)';
 
       const conn = await client.connect();
 
       const result = await conn.query(sql, [id]);
-
-      const product = result.rows[0];
-      if (!product) {
+      if (result.rowCount === 0) {
         throw new Error('No product found to delete.');
+      } else {
+        conn.release();
+        return `Product ${id} is deleted.`;
       }
-      console.log(product);
-      conn.release();
+      // const product = result.rows[0];
+      // console.log(product);
+      // console.log('-----------------------------------');
+      // console.log(result);
+      // console.log(result._types);
 
-      return product;
+      // return product;
     } catch (err) {
       throw new Error(`Could not delete product ${id}. ${err}`);
     }
