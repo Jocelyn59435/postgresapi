@@ -70,7 +70,11 @@ const authenticate = async (req: Request, res: Response) => {
   }
 };
 
-const verifyAuthToken = (req: Request, res: Response, next: NextFunction) => {
+const verifyAuthToken = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): unknown => {
   try {
     const authorizationHeader = req.headers.authorization;
     if (!authorizationHeader) {
@@ -93,4 +97,4 @@ const user_routes = (app: express.Application): void => {
   app.get('/users/:id', verifyAuthToken, show);
 };
 
-export default user_routes;
+export default { user_routes, verifyAuthToken };

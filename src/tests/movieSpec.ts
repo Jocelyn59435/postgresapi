@@ -1,8 +1,8 @@
-import { Movie, MovieStore } from '../models/movie';
+import { Product, ProductStore } from '../models/product';
 
-const store = new MovieStore();
+const store = new ProductStore();
 
-describe('Movie Model', () => {
+describe('Product Model', () => {
   it('should have an index method', () => {
     expect(store.index).toBeDefined();
   });

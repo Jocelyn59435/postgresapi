@@ -19,5 +19,5 @@ jasmine.getEnv().addReporter(
       displayStacktrace: StacktraceOption.NONE,
     },
     customProcessors: [CustomProcessor],
-  }) as CustomReporter
+  }) as unknown as CustomReporter
 );
