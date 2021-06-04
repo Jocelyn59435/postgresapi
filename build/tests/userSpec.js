@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const movie_1 = require("../movie");
-const store = new movie_1.MovieStore();
-describe('Movide Model', () => {
+const user_1 = require("../models/user");
+const store = new user_1.UserStore();
+describe('User Model', () => {
     it('should have an index method', () => {
         expect(store.index).toBeDefined();
     });

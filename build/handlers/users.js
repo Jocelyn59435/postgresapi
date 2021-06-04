@@ -12,38 +12,80 @@ const store = new user_1.UserStore();
 // express handler function
 const create = async (req, res) => {
     const user = {
-        username: req.body['username'],
-        password_digest: req.body['password_digest'],
+        id: req.body.id,
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        user_password: req.body.user_password,
     };
     try {
         const newUser = await store.create(user);
-        var token = jsonwebtoken_1.default.sign({ user: newUser }, tokensecret);
-        console.log('create route.');
+        const token = jsonwebtoken_1.default.sign({ user: newUser }, tokensecret);
+        console.log(`create user route. ${tokensecret}`);
         res.json(token);
     }
     catch (err) {
         res.status(400);
-        res.json(err);
+        res.json(err.message);
+    }
+};
+const index = async (_req, res) => {
+    try {
+        const users = await store.index();
+        res.json(users);
+        console.log('Index user route.');
+    }
+    catch (err) {
+        res.status(400);
+        throw new Error(`Could not get users: ${err.detail}.`);
+    }
+};
+const show = async (req, res) => {
+    try {
+        const user = await store.show(req.params.id);
+        res.json(user);
+        console.log('Show user route.');
+    }
+    catch (err) {
+        res.status(400);
+        throw new Error(`Could not get user ${req.params.id}: ${err.detail}.`);
     }
 };
 const authenticate = async (req, res) => {
-    const user = {
-        username: req.body['username'],
-        password_digest: req.body['password_digest'],
-    };
     try {
-        const u = await store.authenticate(req.body.username, req.body.password);
-        var token = jsonwebtoken_1.default.sign({ user: u }, tokensecret);
-        res.json(token);
+        const resultForauthentication = await store.authenticate(req.body.firstname, req.body.lastname, req.body.user_password);
+        if (resultForauthentication) {
+            const token = jsonwebtoken_1.default.sign({ user: resultForauthentication }, tokensecret);
+            res.json(token);
+        }
+        else {
+            res.status(401).send('Invalid user info.');
+        }
     }
     catch (err) {
-        console.log(err);
         res.status(401);
-        res.json({ err });
+        res.send(err);
+    }
+};
+const verifyAuthToken = (req, res, next) => {
+    try {
+        const authorizationHeader = req.headers.authorization;
+        if (!authorizationHeader) {
+            return res.status(401).send('invalid request');
+        }
+        const token = authorizationHeader.split(' ')[1];
+        const decoded = jsonwebtoken_1.default.verify(token, tokensecret);
+        next();
+    }
+    catch (err) {
+        res.status(401);
+        res.send(err);
     }
 };
 const user_routes = (app) => {
+    app.post('/authenticate', authenticate);
     app.post('/createuser', create);
-    app.post('/checkuser', authenticate);
+    // provide your-256-bit-secret field in JWT debugger for testing
+    app.get('/users', verifyAuthToken, index);
+    app.get('/users/:id', verifyAuthToken, show);
 };
 exports.default = user_routes;

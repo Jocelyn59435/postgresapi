@@ -15,6 +15,31 @@ export type User = {
 };
 
 export class UserStore {
+  async index(): Promise<User[]> {
+    try {
+      const conn = await client.connect();
+      const sql = 'SELECT * FROM users';
+      const result = await conn.query(sql);
+      conn.release();
+      console.log(result);
+      return result.rows;
+    } catch (err) {
+      throw new Error(`Could not get users. Error: ${err}.`);
+    }
+  }
+
+  async show(id: string): Promise<User> {
+    try {
+      const sql = 'SELECT * FROM users WHERE id = ($1)';
+      const conn = await client.connect();
+      const result = await conn.query(sql, [id]);
+      conn.release();
+      return result.rows[0];
+    } catch (err) {
+      throw new Error(`Could not find user ${id}. Error: ${err}`);
+    }
+  }
+
   async create(u: User): Promise<User> {
     try {
       const conn = await client.connect();
@@ -37,29 +62,30 @@ export class UserStore {
 
       return user;
     } catch (err) {
+      console.log(err.detail);
       throw new Error(
-        `unable create user (${u.firstname} ${u.lastname}): ${err}`
+        `unable create user (${u.firstname} ${u.lastname}): ${err.detail}`
       );
     }
   }
 
   async authenticate(
     firstname: string,
-    password: string
+    lastname: string,
+    input_password: string
   ): Promise<User | null> {
     const conn = await client.connect();
-    const sql = 'SELECT user_password FROM users WHERE firstname=($1)';
-
-    const result = await conn.query(sql, [firstname]);
-    console.log(password + pepper);
-
+    const sql =
+      'SELECT user_password FROM users WHERE firstname = ($1) AND lastname = ($2)';
+    const result = await conn.query(sql, [firstname, lastname]);
     if (result.rows.length) {
-      const user = result.rows[0];
+      const user_password = result.rows[0];
+      console.log(user_password);
 
-      console.log(user);
-
-      if (bcrypt.compareSync(password + pepper, user.password_digest)) {
-        return user;
+      if (
+        bcrypt.compareSync(input_password + pepper, user_password.user_password)
+      ) {
+        return user_password;
       }
     }
     return null;

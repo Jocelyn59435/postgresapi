@@ -1,4 +1,4 @@
-import { Movie, MovieStore } from '../movie';
+import { Movie, MovieStore } from '../models/movie';
 
 const store = new MovieStore();
 

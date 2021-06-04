@@ -33,7 +33,6 @@ class MovieStore {
     async create(m) {
         try {
             const sql = 'INSERT INTO movies (title, duration, director, type, summary) VALUES($1, $2, $3, $4, $5) RETURNING *';
-            // @ts-ignore
             const conn = await database_1.default.connect();
             const result = await conn.query(sql, [
                 m.title,
@@ -53,7 +52,6 @@ class MovieStore {
     async delete(id) {
         try {
             const sql = 'DELETE FROM movies WHERE id=($1)';
-            // @ts-ignore
             const conn = await database_1.default.connect();
             const result = await conn.query(sql, [id]);
             const movie = result.rows[0];
