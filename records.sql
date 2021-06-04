@@ -8,10 +8,3 @@ INSERT INTO products (id, product_name, product_price, product_category) VALUES 
 INSERT INTO products (id, product_name, product_price, product_category) VALUES (8, 'Toscano Chocolate Chip Brioche Rolls 280g', 5, 'Bakery');
 INSERT INTO products (id, product_name, product_price, product_category) VALUES (9, 'Toscano Tiramisu 500g', 7, 'Backery');
 INSERT INTO products (id, product_name, product_price, product_category) VALUES (10, 'Perfection Chinese Wombok Baby whole each', 3, 'Veggie');
-
-INSERT INTO users (id, firstname, lastname, user_password) VALUES (1, 'Chadwick','Boseman', '123abc');
-INSERT INTO users (id, firstname, lastname, user_password) VALUES (2, 'Loki', 'Thor', '123ang');
-
-INSERT INTO orders (id, order_status, order_time, user_id) VALUES (1, 'complete', current_timestamp, 2);
-
-INSERT INTO order_products (id, quantity, order_id, product_id) VALUES (1, 3, 2, 2);

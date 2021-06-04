@@ -13,6 +13,7 @@ const store = new UserStore();
 const create = async (req: Request, res: Response) => {
   const user: User = {
     id: req.body.id,
+    username: req.body.username,
     firstname: req.body.firstname,
     lastname: req.body.lastname,
     user_password: req.body.user_password,
@@ -54,15 +55,14 @@ const show = async (req: Request, res: Response) => {
 const authenticate = async (req: Request, res: Response) => {
   try {
     const resultForauthentication = await store.authenticate(
-      req.body.firstname,
-      req.body.lastname,
+      req.body.username,
       req.body.user_password
     );
     if (resultForauthentication) {
       const token = jwt.sign({ user: resultForauthentication }, tokensecret);
       res.json(token);
     } else {
-      res.status(401).send('Invalid user info.');
+      res.status(401).send('No authentication.');
     }
   } catch (err) {
     res.status(401);

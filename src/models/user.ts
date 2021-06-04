@@ -9,6 +9,7 @@ const saltRounds: string = process.env.SALT_ROUNDS!;
 
 export type User = {
   id: number;
+  username: string;
   firstname: string;
   lastname: string;
   user_password: string;
@@ -44,7 +45,7 @@ export class UserStore {
     try {
       const conn = await client.connect();
       const sql =
-        'INSERT INTO users (id, firstname, lastname, user_password) VALUES($1, $2, $3, $4) RETURNING *';
+        'INSERT INTO users (id, username, firstname, lastname, user_password) VALUES($1, $2, $3, $4, $5) RETURNING *';
       const hash = bcrypt.hashSync(
         u.user_password + pepper,
         parseInt(saltRounds)
@@ -52,6 +53,7 @@ export class UserStore {
 
       const result = await conn.query(sql, [
         u.id,
+        u.username,
         u.firstname,
         u.lastname,
         hash,
@@ -70,24 +72,23 @@ export class UserStore {
   }
 
   async authenticate(
-    firstname: string,
-    lastname: string,
+    username: string,
     input_password: string
   ): Promise<User | null> {
     const conn = await client.connect();
-    const sql =
-      'SELECT user_password FROM users WHERE firstname = ($1) AND lastname = ($2)';
-    const result = await conn.query(sql, [firstname, lastname]);
+    const sql = 'SELECT user_password FROM users WHERE username = ($1)';
+    const result = await conn.query(sql, [username]);
     if (result.rows.length) {
       const user_password = result.rows[0];
       console.log(user_password);
-
       if (
         bcrypt.compareSync(input_password + pepper, user_password.user_password)
       ) {
         return user_password;
+      } else {
+        throw new Error('Wrong password, please try again.');
       }
     }
-    return null;
+    throw new Error('Invalid username, please try again.');
   }
 }
