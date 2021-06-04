@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import { Order, OrderStore } from '../models/order';
-import { verifyAuthToken } from './users';
+import verifyAuthToken from '../middlewares/verifyAuthToken';
+import checkOrderStatus from '../middlewares/checkOrderStatus';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -50,10 +51,29 @@ const create = async (req: Request, res: Response) => {
   }
 };
 
+const addProduct = async (req: Request, res: Response) => {
+  const order_id: string = req.params.orderid;
+  const product_id: string = req.body.product_id;
+  const quantity: number = req.body.quantity;
+  try {
+    const addedInfo = await store.addProduct(quantity, order_id, product_id);
+    res.json(addedInfo);
+  } catch (err) {
+    res.status(400);
+    res.json(err.message);
+  }
+};
+
 const order_routes = (app: express.Application): void => {
   app.get('/completedorders/:userid', verifyAuthToken, completedOrdersByUser);
   app.get('/orders/:userid', verifyAuthToken, showByUser);
   app.post('/orders', verifyAuthToken, create);
+  app.post(
+    '/orders/:orderid/products',
+    verifyAuthToken,
+    checkOrderStatus,
+    addProduct
+  );
 };
 
 export default order_routes;

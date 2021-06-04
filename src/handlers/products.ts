@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import { Product, ProductStore } from '../models/product';
-import { verifyAuthToken } from './users';
 import dotenv from 'dotenv';
+import verifyAuthToken from '../middlewares/verifyAuthToken';
 
 dotenv.config();
 

@@ -1,7 +1,8 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express, { Request, Response } from 'express';
 import { User, UserStore } from '../models/user';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import verifyAuthToken from '../middlewares/verifyAuthToken';
 
 dotenv.config();
 
@@ -70,25 +71,6 @@ const authenticate = async (req: Request, res: Response) => {
   }
 };
 
-const verifyAuthToken = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): unknown => {
-  try {
-    const authorizationHeader = req.headers.authorization;
-    if (!authorizationHeader) {
-      return res.status(401).send('invalid request');
-    }
-    const token = authorizationHeader.split(' ')[1];
-    const decoded = jwt.verify(token, tokensecret);
-    next();
-  } catch (err) {
-    res.status(401);
-    res.send(err);
-  }
-};
-
 const user_routes = (app: express.Application): void => {
   app.post('/authenticate', authenticate);
   app.post('/createuser', create);
@@ -97,4 +79,4 @@ const user_routes = (app: express.Application): void => {
   app.get('/users/:id', verifyAuthToken, show);
 };
 
-export { user_routes, verifyAuthToken };
+export default user_routes;
