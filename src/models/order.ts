@@ -12,22 +12,22 @@ export class OrderStore {
     try {
       const conn = await client.connect();
       const sql =
-        'SELECT * FROM orders WHERE (user_id = ($1) AND order_status = complete)';
-      const result = await conn.query(sql, [user_id]);
+        'SELECT * FROM orders WHERE (user_id = ($1) AND order_status = ($2))';
+      const result = await conn.query(sql, [user_id, 'complete']);
       conn.release();
-      return result.rows;
+      return result;
     } catch (err) {
       throw new Error(`Could not get orders. Error: ${err}`);
     }
   }
 
-  async showByUser(user_id: string): Promise<Order> {
+  async showByUser(user_id: string): Promise<Order[]> {
     try {
       const sql = 'SELECT * FROM orders WHERE user_id=($1)';
       const conn = await client.connect();
       const result = await conn.query(sql, [user_id]);
       conn.release();
-      return result.rows[0];
+      return result;
     } catch (err) {
       throw new Error(
         `Could not find order with user_id ${user_id}. Error: ${err}`

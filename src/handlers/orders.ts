@@ -16,18 +16,18 @@ const completedOrdersByUser = async (req: Request, res: Response) => {
     console.log('Show completed order by user.');
   } catch (err) {
     res.status(400);
-    throw new Error(`Could not get orders: ${err.detail}.`);
+    res.json(err.message);
   }
 };
 
 const showByUser = async (req: Request, res: Response) => {
   try {
-    const order = await store.showByUser(req.params.id);
-    res.json(order);
+    const orders = await store.showByUser(req.params.id);
+    res.json(orders);
     console.log('Show order by user.');
   } catch (err) {
     res.status(400);
-    throw new Error(`Could not get order ${req.params.id}: ${err.detail}.`);
+    res.json(err.message);
   }
 };
 
