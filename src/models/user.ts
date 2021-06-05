@@ -29,13 +29,26 @@ export class UserStore {
     }
   }
 
-  async show(id: string): Promise<User> {
+  // show user info by id with most recent orders
+  async show(id: string): Promise<
+    {
+      user_id: string;
+      order_id: string;
+      order_time: Date;
+      order_status: string;
+      username: string;
+      firstname: string;
+      lastname: string;
+      user_password: string;
+    }[]
+  > {
     try {
-      const sql = 'SELECT * FROM users WHERE id = ($1)';
+      const sql =
+        'select user_id, orders.id as order_id, order_time, order_status, username, firstname, lastname, user_password from orders inner join users on orders.user_id = users.id and users.id = ($1) order by order_time DESC;';
       const conn = await client.connect();
       const result = await conn.query(sql, [id]);
       conn.release();
-      return result.rows[0];
+      return result.rows;
     } catch (err) {
       throw new Error(`Could not find user ${id}. Error: ${err}`);
     }
