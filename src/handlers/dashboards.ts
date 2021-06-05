@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-
+import verifyAuthToken from '../middlewares/verifyAuthToken';
 import { DashboardQueries } from '../services/dashboard';
 
 const queries = new DashboardQueries();
@@ -40,7 +40,7 @@ const getPurchaseInfoByOrderId = async (req: Request, res: Response) => {
 const dashboardRoutes = (app: express.Application): void => {
   app.get('/topfiveproducts', topFiveProducts);
   app.get('/products/:category', productsByCategory);
-  app.get('/purchaseinfo/:orderid', getPurchaseInfoByOrderId);
+  app.get('/purchaseinfo/:orderid', verifyAuthToken, getPurchaseInfoByOrderId);
 };
 
 export default dashboardRoutes;

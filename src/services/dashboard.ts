@@ -45,7 +45,7 @@ export class DashboardQueries {
     try {
       const conn = await client.connect();
       const sql =
-        'select product_name, product_price, product_category, quantity, order_id from products inner join order_products on products.id = order_products.product_id where order_id = $(1)';
+        'select product_name, product_price, product_category, quantity, order_id from products inner join order_products on products.id = order_products.product_id where order_id = ($1)';
       const result = await conn.query(sql, [order_id]);
       console.log(result);
       conn.release();
