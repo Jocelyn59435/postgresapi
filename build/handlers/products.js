@@ -4,8 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const product_1 = require("../models/product");
-const users_1 = require("./users");
 const dotenv_1 = __importDefault(require("dotenv"));
+const verifyAuthToken_1 = __importDefault(require("../middlewares/verifyAuthToken"));
 dotenv_1.default.config();
 const store = new product_1.ProductStore();
 // express handler function
@@ -18,7 +18,7 @@ const index = async (_req, res) => {
     }
     catch (err) {
         res.status(400);
-        throw new Error(`Could not get products: ${err.detail}.`);
+        res.json(err.message);
     }
 };
 const show = async (req, res) => {
@@ -28,8 +28,8 @@ const show = async (req, res) => {
         console.log('Show product route');
     }
     catch (err) {
-        res.status(400);
-        throw new Error(`Could not get product ${req.params.id}: ${err.detail}.`);
+        res.status(400).send(`Could not get product ${req.params.id}`);
+        res.json(err.message);
     }
 };
 const create = async (req, res) => {
@@ -65,7 +65,7 @@ const deleteproduct = async (req, res) => {
 const product_routes = (app) => {
     app.get('/products', index);
     app.get('/products/:id', show);
-    app.post('/products', users_1.verifyAuthToken, create);
-    app.delete('/deleteproduct/:id', users_1.verifyAuthToken, deleteproduct);
+    app.post('/products', verifyAuthToken_1.default, create);
+    app.delete('/deleteproduct/:id', verifyAuthToken_1.default, deleteproduct);
 };
 exports.default = product_routes;
