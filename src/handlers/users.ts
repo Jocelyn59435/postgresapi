@@ -22,7 +22,7 @@ const create = async (req: Request, res: Response) => {
   try {
     const newUser = await store.create(user);
     const token = jwt.sign({ user: newUser }, tokensecret);
-    console.log(`create user route. ${tokensecret}`);
+    console.log('create user route.');
     res.json(token);
   } catch (err) {
     res.status(400);
