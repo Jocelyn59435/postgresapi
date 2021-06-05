@@ -28,8 +28,9 @@ const show = async (req, res) => {
         console.log('Show product route');
     }
     catch (err) {
-        res.status(400).send(`Could not get product ${req.params.id}`);
-        res.json(err.message);
+        res
+            .status(400)
+            .send(`Could not get product ${req.params.id}: ${err.message}`);
     }
 };
 const create = async (req, res) => {

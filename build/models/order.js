@@ -29,7 +29,7 @@ class OrderStore {
             const sql = 'SELECT * FROM orders WHERE (user_id = ($1) AND order_status = ($2))';
             const result = await conn.query(sql, [user_id, 'complete']);
             conn.release();
-            return result;
+            return result.rows;
         }
         catch (err) {
             throw new Error(`Could not get orders. Error: ${err}`);
@@ -41,7 +41,7 @@ class OrderStore {
             const conn = await database_1.default.connect();
             const result = await conn.query(sql, [user_id]);
             conn.release();
-            return result;
+            return result.rows;
         }
         catch (err) {
             throw new Error(`Could not find order with user_id ${user_id}. Error: ${err}`);

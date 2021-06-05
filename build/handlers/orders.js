@@ -24,7 +24,7 @@ const completedOrdersByUser = async (req, res) => {
 };
 const showByUser = async (req, res) => {
     try {
-        const orders = await store.showByUser(req.params.id);
+        const orders = await store.showByUser(req.params.userid);
         res.json(orders);
         console.log('Show order by user.');
     }

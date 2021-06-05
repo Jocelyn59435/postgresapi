@@ -24,6 +24,7 @@ const productsByCategory = async (req, res) => {
         res.json(result);
     }
     catch (err) {
+        console.log(req.params.category);
         res.status(400);
         res.json(err.message);
     }

@@ -23,7 +23,7 @@ const completedOrdersByUser = async (req: Request, res: Response) => {
 
 const showByUser = async (req: Request, res: Response) => {
   try {
-    const orders = await store.showByUser(req.params.id);
+    const orders = await store.showByUser(req.params.userid);
     res.json(orders);
     console.log('Show order by user.');
   } catch (err) {
