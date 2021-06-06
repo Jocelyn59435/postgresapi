@@ -23,10 +23,10 @@ describe('User Model', () => {
     });
     it('authenticate method should throw an error when user input is not valid', async () => {
         const result = await store.authenticate('Bene', '234');
-        expect(result).toThrow('Invalid username, please try again');
+        expect(result).toThrow(new Error('Invalid username, please try again.'));
     });
-    it('authenticate method should return an token when user input is valid', async () => {
-        const result = await store.authenticate('Thriller', '234');
+    it('authenticate method should return the password when user input is valid', async () => {
+        const result = await store.authenticate('Jocelyn', '234');
         expect(result).toBeDefined;
     });
 });

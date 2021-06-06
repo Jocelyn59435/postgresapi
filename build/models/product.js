@@ -65,12 +65,6 @@ class ProductStore {
                 conn.release();
                 return `Product ${id} is deleted.`;
             }
-            // const product = result.rows[0];
-            // console.log(product);
-            // console.log('-----------------------------------');
-            // console.log(result);
-            // console.log(result._types);
-            // return product;
         }
         catch (err) {
             throw new Error(`Could not delete product ${id}. ${err}`);

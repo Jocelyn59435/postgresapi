@@ -26,7 +26,7 @@ describe('User Model', () => {
     expect(result).toThrow(new Error('Invalid username, please try again.'));
   });
   it('authenticate method should return the password when user input is valid', async () => {
-    const result = await store.authenticate('Thriller', '234');
+    const result = await store.authenticate('Jocelyn', '234');
     expect(result).toBeDefined;
   });
 });

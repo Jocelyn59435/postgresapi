@@ -25,13 +25,14 @@ class DashboardQueries {
     async productsByCategory(category) {
         try {
             const conn = await database_1.default.connect();
-            const sql = 'SELECT * from products where product_category = ($1)';
+            const sql = 'SELECT * from products where product_category =($1::text)';
             const result = await conn.query(sql, [category]);
             console.log(result);
             conn.release();
             return result.rows;
         }
         catch (err) {
+            console.log(err);
             throw new Error(`unable get products by ${category}: ${err}`);
         }
     }
