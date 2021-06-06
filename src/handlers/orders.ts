@@ -11,7 +11,7 @@ const store = new OrderStore();
 // express handler function
 const completedOrdersByUser = async (req: Request, res: Response) => {
   try {
-    const orders = await store.completedOrdersByUser(req.params.id);
+    const orders = await store.completedOrdersByUser(req.params.userid);
     console.log(orders);
     res.json(orders);
     console.log('Show completed order by user.');

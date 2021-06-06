@@ -6,7 +6,7 @@ import order_routes from './handlers/orders';
 import dashboardRoutes from './handlers/dashboards';
 
 const app: express.Application = express();
-const address = '0.0.0.0:3000';
+const address = '0.0.0.0:5000';
 
 app.use(bodyParser.json());
 
@@ -22,6 +22,6 @@ order_routes(app);
 
 dashboardRoutes(app);
 
-app.listen(3000, function () {
+app.listen(5000, function () {
   console.log(`starting app on: ${address}`);
 });

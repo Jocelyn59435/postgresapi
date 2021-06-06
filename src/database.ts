@@ -11,7 +11,7 @@ const {
   NODE_ENV,
 } = process.env;
 
-let client: any;
+let client: Pool = new Pool();
 console.log(NODE_ENV);
 if (NODE_ENV === 'test') {
   client = new Pool({
