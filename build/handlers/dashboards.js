@@ -42,7 +42,7 @@ const getPurchaseInfoByOrderId = async (req, res) => {
 };
 const dashboardRoutes = (app) => {
     app.get('/topfiveproducts', topFiveProducts);
-    app.get('/products/:category', productsByCategory);
+    app.get('/productsbycategory/:category', productsByCategory);
     app.get('/purchaseinfo/:orderid', verifyAuthToken_1.default, getPurchaseInfoByOrderId);
 };
 exports.default = dashboardRoutes;

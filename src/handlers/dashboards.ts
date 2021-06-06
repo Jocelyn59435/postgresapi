@@ -40,7 +40,7 @@ const getPurchaseInfoByOrderId = async (req: Request, res: Response) => {
 
 const dashboardRoutes = (app: express.Application): void => {
   app.get('/topfiveproducts', topFiveProducts);
-  app.get('/products/:category', productsByCategory);
+  app.get('/productsbycategory/:category', productsByCategory);
   app.get('/purchaseinfo/:orderid', verifyAuthToken, getPurchaseInfoByOrderId);
 };
 

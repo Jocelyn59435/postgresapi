@@ -3,6 +3,43 @@ import { OrderStore } from '../models/order';
 const store = new OrderStore();
 
 describe('Order Model', () => {
+  beforeAll(function () {
+    spyOn(store, 'show').and.returnValue(
+      Promise.resolve({
+        id: 1,
+        order_status: 'complete',
+        order_time: new Date(Date.UTC(2021, 1)),
+        user_id: '2',
+      })
+    );
+
+    spyOn(store, 'create').and.returnValue(
+      Promise.resolve({
+        id: 1,
+        order_status: 'complete',
+        order_time: new Date(Date.UTC(2021, 1)),
+        user_id: '2',
+      })
+    );
+
+    spyOn(store, 'completedOrderByUser').and.returnValue(
+      Promise.resolve([
+        {
+          id: 1,
+          order_status: 'complete',
+          order_time: new Date(Date.UTC(2021, 1)),
+          user_id: '2',
+        },
+        {
+          id: 2,
+          order_status: 'complete',
+          order_time: new Date(Date.UTC(2021, 1)),
+          user_id: '2',
+        },
+      ])
+    );
+  });
+
   it('show method should return an order record', async () => {
     const result = await store.show('1');
     expect(result).toBeDefined;

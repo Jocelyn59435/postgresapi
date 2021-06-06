@@ -12,7 +12,7 @@ describe('Order Model', () => {
             id: 32,
             order_status: 'Active',
             order_time: new Date(Date.now()),
-            user_id: '22',
+            user_id: '4',
         });
         expect(result).toBeDefined;
     });
@@ -25,7 +25,7 @@ describe('Order Model', () => {
         expect(result.length).toBeGreaterThanOrEqual(1);
     });
     it('add product method should return an added record', async () => {
-        const result = await store.addProduct(3, '4', '3');
+        const result = await store.addProduct(9, '4', '27');
         expect(result).toBeDefined;
     });
 });

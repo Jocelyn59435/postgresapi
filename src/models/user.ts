@@ -87,7 +87,7 @@ export class UserStore {
   async authenticate(
     username: string,
     input_password: string
-  ): Promise<User | null> {
+  ): Promise<string> {
     const conn = await client.connect();
     const sql = 'SELECT user_password FROM users WHERE username = ($1)';
     const result = await conn.query(sql, [username]);
