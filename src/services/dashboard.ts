@@ -6,7 +6,7 @@ import { Product } from '../models/product';
 
 export class DashboardQueries {
   // get TOP 5 popular product by counting and sorting unique order_id for each prodcut
-  async topFiveProducts(): Promise<{ product_name: string; count: string }[]> {
+  async topFiveProducts(): Promise<{ product_name: string; orders: string }[]> {
     try {
       const conn = await client.connect();
       const sql =

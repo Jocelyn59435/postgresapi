@@ -22,7 +22,7 @@ describe('Order Model', () => {
       })
     );
 
-    spyOn(store, 'completedOrderByUser').and.returnValue(
+    spyOn(store, 'completedOrdersByUser').and.returnValue(
       Promise.resolve([
         {
           id: 1,
@@ -38,18 +38,44 @@ describe('Order Model', () => {
         },
       ])
     );
+
+    spyOn(store, 'showByUser').and.returnValue(
+      Promise.resolve([
+        {
+          id: 1,
+          order_status: 'complete',
+          order_time: new Date(Date.UTC(2021, 1)),
+          user_id: '2',
+        },
+        {
+          id: 2,
+          order_status: 'complete',
+          order_time: new Date(Date.UTC(2021, 1)),
+          user_id: '2',
+        },
+      ])
+    );
+
+    spyOn(store, 'addProduct').and.returnValue(
+      Promise.resolve({
+        id: 15,
+        quantity: 2,
+        order_id: 7,
+        product_id: 3,
+      })
+    );
   });
 
   it('show method should return an order record', async () => {
-    const result = await store.show('1');
+    const result = await store.show('2');
     expect(result).toBeDefined;
   });
   it('create method should return an added order record', async () => {
     const result = await store.create({
-      id: 32,
-      order_status: 'Active',
-      order_time: new Date(Date.now()),
-      user_id: '4',
+      id: 1,
+      order_status: 'Complete',
+      order_time: new Date(Date.UTC(2021, 1)),
+      user_id: '2',
     });
     expect(result).toBeDefined;
   });
@@ -62,7 +88,7 @@ describe('Order Model', () => {
     expect(result.length).toBeGreaterThanOrEqual(1);
   });
   it('add product method should return an added record', async () => {
-    const result = await store.addProduct(9, '4', '27');
+    const result = await store.addProduct(2, '7', '3');
     expect(result).toBeDefined;
   });
 });
