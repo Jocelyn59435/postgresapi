@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.user_routes = exports.store = void 0;
 const user_1 = require("../models/user");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dotenv_1 = __importDefault(require("dotenv"));
@@ -10,6 +11,7 @@ const verifyAuthToken_1 = __importDefault(require("../middlewares/verifyAuthToke
 dotenv_1.default.config();
 const tokensecret = process.env.TOKEN_SECRET;
 const store = new user_1.UserStore();
+exports.store = store;
 // express handler function
 const create = async (req, res) => {
     const user = {
@@ -76,4 +78,4 @@ const user_routes = (app) => {
     app.get('/users', verifyAuthToken_1.default, index);
     app.get('/users/:id', verifyAuthToken_1.default, show);
 };
-exports.default = user_routes;
+exports.user_routes = user_routes;
