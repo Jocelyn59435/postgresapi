@@ -70,4 +70,4 @@ const product_routes = (app: express.Application): void => {
   app.delete('/deleteproduct/:id', verifyAuthToken, deleteproduct);
 };
 
-export default product_routes;
+export { product_routes, store };

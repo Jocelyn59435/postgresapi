@@ -3,11 +3,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.store = exports.product_routes = void 0;
 const product_1 = require("../models/product");
 const dotenv_1 = __importDefault(require("dotenv"));
 const verifyAuthToken_1 = __importDefault(require("../middlewares/verifyAuthToken"));
 dotenv_1.default.config();
 const store = new product_1.ProductStore();
+exports.store = store;
 // express handler function
 const index = async (_req, res) => {
     try {
@@ -69,4 +71,4 @@ const product_routes = (app) => {
     app.post('/products', verifyAuthToken_1.default, create);
     app.delete('/deleteproduct/:id', verifyAuthToken_1.default, deleteproduct);
 };
-exports.default = product_routes;
+exports.product_routes = product_routes;
