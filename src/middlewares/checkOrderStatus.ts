@@ -23,4 +23,4 @@ const checkOrderStatus = async (
   }
 };
 
-export default checkOrderStatus;
+export { store as orderStore, checkOrderStatus };

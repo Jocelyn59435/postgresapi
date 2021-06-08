@@ -44,4 +44,4 @@ const dashboardRoutes = (app: express.Application): void => {
   app.get('/purchaseinfo/:orderid', verifyAuthToken, getPurchaseInfoByOrderId);
 };
 
-export default dashboardRoutes;
+export { queries, dashboardRoutes };

@@ -53,56 +53,23 @@ describe('Product Handler', () => {
     });
     it('index route should return a list of items', async () => {
         const response = await request.get('/products');
-        const expectedResponse = [
-            {
-                id: 5,
-                product_name: 'Nudie Nothing But Aloha Blend 400ml',
-                product_price: 3,
-                product_category: 'Drink',
-            },
-            {
-                id: 10,
-                product_name: 'Perfection Chinese Wombok Baby whole each',
-                product_price: 3,
-                product_category: 'Veggie',
-            },
-            {
-                id: 15,
-                product_name: 'Nestle Milo Cereal 700g',
-                product_price: 7,
-                product_category: 'Food',
-            },
-            {
-                id: 16,
-                product_name: 'Lindt Les Grandes Dark Hazelnut 150g',
-                product_price: 5,
-                product_category: 'Snack',
-            },
-        ];
         expect(response.status).toBe(200);
-        expect(response.body).toEqual(expectedResponse);
+        expect(response.body[0].product_name).toEqual('Nudie Nothing But Aloha Blend 400ml');
     });
     it('show route should return a record of the product with id 10', async () => {
         const response = await request.get('/products/10');
-        const expectedResponse = {
-            id: 10,
-            product_name: 'Perfection Chinese Wombok Baby whole each',
-            product_price: 3,
-            product_category: 'Veggie',
-        };
         expect(products_1.store.show).toHaveBeenCalledWith('10');
         expect(response.status).toBe(200);
-        expect(response.body).toEqual(expectedResponse);
+        expect(response.body.product_name).toEqual('Perfection Chinese Wombok Baby whole each');
     });
     it('create route should return a record of the added product', async () => {
         const response = await request
             .post('/products')
             .set('Authorization', `Bearer ${token}`)
-            .set('Accept', 'application/json')
             .send(productSample);
         expect(products_1.store.create).toHaveBeenCalledWith(productSample);
         expect(response.status).toBe(200);
-        expect(response.body).toEqual(productSample);
+        expect(response.body.product_name).toEqual('Belgian Chocolate Layer Cake 170g');
     });
     it('delete route should return a successful reponse', async () => {
         const response = await request

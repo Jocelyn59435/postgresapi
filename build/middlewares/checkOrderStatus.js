@@ -1,7 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.checkOrderStatus = exports.orderStore = void 0;
 const order_1 = require("../models/order");
 const store = new order_1.OrderStore();
+exports.orderStore = store;
 const checkOrderStatus = async (req, res, next) => {
     try {
         const order = await store.show(req.params.orderid);
@@ -16,4 +18,4 @@ const checkOrderStatus = async (req, res, next) => {
         res.json(err.message);
     }
 };
-exports.default = checkOrderStatus;
+exports.checkOrderStatus = checkOrderStatus;

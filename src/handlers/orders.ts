@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import { Order, OrderStore } from '../models/order';
 import verifyAuthToken from '../middlewares/verifyAuthToken';
-import checkOrderStatus from '../middlewares/checkOrderStatus';
+import { checkOrderStatus } from '../middlewares/checkOrderStatus';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -26,6 +26,17 @@ const showByUser = async (req: Request, res: Response) => {
     const orders = await store.showByUser(req.params.userid);
     res.json(orders);
     console.log('Show order by user.');
+  } catch (err) {
+    res.status(400);
+    res.json(err.message);
+  }
+};
+
+const show = async (req: Request, res: Response) => {
+  try {
+    const orders = await store.showByUser(req.params.id);
+    res.json(orders);
+    console.log('Show order by order id.');
   } catch (err) {
     res.status(400);
     res.json(err.message);
@@ -65,6 +76,7 @@ const addProduct = async (req: Request, res: Response) => {
 
 const order_routes = (app: express.Application): void => {
   app.get('/completedorders/:userid', verifyAuthToken, completedOrdersByUser);
+  app.get('/orders/:id', verifyAuthToken, show);
   app.get('/orders/users/:userid', verifyAuthToken, showByUser);
   app.post('/orders', verifyAuthToken, create);
   app.post(

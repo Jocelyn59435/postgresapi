@@ -2,25 +2,26 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const order_1 = require("../models/order");
 const store = new order_1.OrderStore();
+const timeSample = '2021-07-07T00:00:00.000Z';
 describe('Order Model', () => {
     beforeAll(function () {
         spyOn(store, 'create').and.returnValue(Promise.resolve({
             id: 1,
             order_status: 'complete',
-            order_time: new Date(Date.UTC(2021, 1)),
+            order_time: timeSample,
             user_id: '2',
         }));
         spyOn(store, 'completedOrdersByUser').and.returnValue(Promise.resolve([
             {
                 id: 1,
                 order_status: 'complete',
-                order_time: new Date(Date.UTC(2021, 1)),
+                order_time: timeSample,
                 user_id: '2',
             },
             {
                 id: 2,
                 order_status: 'complete',
-                order_time: new Date(Date.UTC(2021, 1)),
+                order_time: timeSample,
                 user_id: '2',
             },
         ]));
@@ -28,13 +29,13 @@ describe('Order Model', () => {
             {
                 id: 1,
                 order_status: 'complete',
-                order_time: new Date(Date.UTC(2021, 1)),
+                order_time: timeSample,
                 user_id: '2',
             },
             {
                 id: 2,
                 order_status: 'complete',
-                order_time: new Date(Date.UTC(2021, 1)),
+                order_time: timeSample,
                 user_id: '2',
             },
         ]));
@@ -49,7 +50,6 @@ describe('Order Model', () => {
         const result = await store.create({
             id: 1,
             order_status: 'Complete',
-            order_time: new Date(Date.UTC(2021, 1)),
             user_id: '2',
         });
         expect(result).toBeDefined;

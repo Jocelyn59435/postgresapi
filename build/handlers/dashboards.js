@@ -3,9 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.dashboardRoutes = exports.queries = void 0;
 const verifyAuthToken_1 = __importDefault(require("../middlewares/verifyAuthToken"));
 const dashboard_1 = require("../services/dashboard");
 const queries = new dashboard_1.DashboardQueries();
+exports.queries = queries;
 const topFiveProducts = async (_req, res) => {
     try {
         const result = await queries.topFiveProducts();
@@ -45,4 +47,4 @@ const dashboardRoutes = (app) => {
     app.get('/productsbycategory/:category', productsByCategory);
     app.get('/purchaseinfo/:orderid', verifyAuthToken_1.default, getPurchaseInfoByOrderId);
 };
-exports.default = dashboardRoutes;
+exports.dashboardRoutes = dashboardRoutes;

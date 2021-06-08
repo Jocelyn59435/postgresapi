@@ -10,7 +10,7 @@
     "driver": "pg",
     "host": "127.0.0.1",
     "database": "collection_test",
-    "user": "userfortest",
+    "user": "xinxin",
     "password": "internet"
   }
 }

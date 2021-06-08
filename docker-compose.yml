@@ -4,7 +4,7 @@ services:
   postgres:
     image: postgres
     ports:
-      - '6069:6069'
+      - '5432:5432'
     env_file:
       - .env
     volumes:

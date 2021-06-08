@@ -1,6 +1,7 @@
 import { OrderStore } from '../models/order';
 
 const store = new OrderStore();
+const timeSample = '2021-07-07T00:00:00.000Z';
 
 describe('Order Model', () => {
   beforeAll(function () {
@@ -8,7 +9,7 @@ describe('Order Model', () => {
       Promise.resolve({
         id: 1,
         order_status: 'complete',
-        order_time: new Date(Date.UTC(2021, 1)),
+        order_time: timeSample,
         user_id: '2',
       })
     );
@@ -18,13 +19,13 @@ describe('Order Model', () => {
         {
           id: 1,
           order_status: 'complete',
-          order_time: new Date(Date.UTC(2021, 1)),
+          order_time: timeSample,
           user_id: '2',
         },
         {
           id: 2,
           order_status: 'complete',
-          order_time: new Date(Date.UTC(2021, 1)),
+          order_time: timeSample,
           user_id: '2',
         },
       ])
@@ -35,13 +36,13 @@ describe('Order Model', () => {
         {
           id: 1,
           order_status: 'complete',
-          order_time: new Date(Date.UTC(2021, 1)),
+          order_time: timeSample,
           user_id: '2',
         },
         {
           id: 2,
           order_status: 'complete',
-          order_time: new Date(Date.UTC(2021, 1)),
+          order_time: timeSample,
           user_id: '2',
         },
       ])

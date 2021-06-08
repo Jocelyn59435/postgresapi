@@ -30,24 +30,13 @@ export class UserStore {
   }
 
   // show user info by id with most recent orders
-  async show(id: string): Promise<
-    {
-      user_id: string;
-      order_id: string;
-      order_time: Date;
-      order_status: string;
-      username: string;
-      firstname: string;
-      lastname: string;
-    }[]
-  > {
+  async show(id: string): Promise<Omit<User, 'user_password'>> {
     try {
-      const sql =
-        'select user_id, orders.id as order_id, order_time, order_status, username, firstname, lastname from orders inner join users on orders.user_id = users.id and users.id = ($1) order by order_time DESC;';
+      const sql = 'select * from users where id = ($1);';
       const conn = await client.connect();
       const result = await conn.query(sql, [id]);
       conn.release();
-      return result.rows;
+      return result.rows[0];
     } catch (err) {
       throw new Error(`Could not find user ${id}. Error: ${err}`);
     }

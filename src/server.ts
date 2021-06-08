@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import { product_routes } from './handlers/products';
 import { user_routes } from './handlers/users';
 import { order_routes } from './handlers/orders';
-import dashboardRoutes from './handlers/dashboards';
+import { dashboardRoutes } from './handlers/dashboards';
 
 const app: express.Application = express();
 const address = '0.0.0.0:5000';
