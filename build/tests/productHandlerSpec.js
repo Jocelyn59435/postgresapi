@@ -8,14 +8,14 @@ const server_1 = __importDefault(require("../server"));
 const products_1 = require("../handlers/products");
 const request = supertest_1.default(server_1.default);
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo3LCJmaXJzdG5hbWUiOiJaaXlpbiIsImxhc3RuYW1lIjoiWWFuZyIsInVzZXJfcGFzc3dvcmQiOiIkMmIkMTAkQXpUaU5ZYWR5U1dTOW5vOEVucGhULjJpSHJSNTQxWVNuQkhvakhVYTZvWUl0UmRjVnJrLy4ifSwiaWF0IjoxNjIyNzY5OTc5fQ.ewt1WaANXP2lhg3FCRr3XS3jeFDz3i4HaCK4eG3-zQ4';
+const productSample = {
+    id: 22,
+    product_name: 'Belgian Chocolate Layer Cake 170g',
+    product_price: 6,
+    product_category: 'Backery',
+};
 describe('Product Handler', () => {
     beforeAll(function () {
-        const productSample = {
-            id: 22,
-            product_name: 'Belgian Chocolate Layer Cake 170g',
-            product_price: 6,
-            product_category: 'Backery',
-        };
         spyOn(products_1.store, 'index').and.returnValue(Promise.resolve([
             {
                 id: 5,
@@ -95,15 +95,10 @@ describe('Product Handler', () => {
         expect(response.body).toEqual(expectedResponse);
     });
     it('create route should return a record of the added product', async () => {
-        const productSample = {
-            id: 22,
-            product_name: 'Belgian Chocolate Layer Cake 170g',
-            product_price: 6,
-            product_category: 'Backery',
-        };
         const response = await request
             .post('/products')
             .set('Authorization', `Bearer ${token}`)
+            .set('Accept', 'application/json')
             .send(productSample);
         expect(products_1.store.create).toHaveBeenCalledWith(productSample);
         expect(response.status).toBe(200);

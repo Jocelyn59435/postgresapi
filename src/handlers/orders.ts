@@ -37,7 +37,6 @@ const create = async (req: Request, res: Response) => {
     const order: Order = {
       id: req.body.id,
       order_status: req.body.order_status,
-      order_time: req.body.order_time,
       user_id: req.body.user_id,
     };
 
@@ -66,7 +65,7 @@ const addProduct = async (req: Request, res: Response) => {
 
 const order_routes = (app: express.Application): void => {
   app.get('/completedorders/:userid', verifyAuthToken, completedOrdersByUser);
-  app.get('/orders/:userid', verifyAuthToken, showByUser);
+  app.get('/orders/users/:userid', verifyAuthToken, showByUser);
   app.post('/orders', verifyAuthToken, create);
   app.post(
     '/orders/:orderid/products',
@@ -76,4 +75,4 @@ const order_routes = (app: express.Application): void => {
   );
 };
 
-export default order_routes;
+export { store, order_routes };

@@ -147,11 +147,11 @@ describe('User Handler', () => {
         expect(response.status).toBe(200);
         expect(response.body).toEqual(expectedResponse);
     });
-    it('create route should return a record of the added user', async () => {
+    it('create route should return a token', async () => {
         const response = await request.post('/createuser').send(userSample);
         expect(users_1.store.create).toHaveBeenCalledWith(userSample);
         expect(response.status).toBe(200);
-        expect(response.body).toEqual(userSample);
+        expect(response.body).toEqual(token);
     });
     it('authenticate route should return a successful reponse', async () => {
         const response = await request.post('/authenticate').send({

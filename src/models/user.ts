@@ -16,7 +16,7 @@ export type User = {
 };
 
 export class UserStore {
-  async index(): Promise<User[]> {
+  async index(): Promise<Omit<User, 'user_password'>[]> {
     try {
       const conn = await client.connect();
       const sql = 'SELECT * FROM users';
@@ -39,12 +39,11 @@ export class UserStore {
       username: string;
       firstname: string;
       lastname: string;
-      user_password: string;
     }[]
   > {
     try {
       const sql =
-        'select user_id, orders.id as order_id, order_time, order_status, username, firstname, lastname, user_password from orders inner join users on orders.user_id = users.id and users.id = ($1) order by order_time DESC;';
+        'select user_id, orders.id as order_id, order_time, order_status, username, firstname, lastname from orders inner join users on orders.user_id = users.id and users.id = ($1) order by order_time DESC;';
       const conn = await client.connect();
       const result = await conn.query(sql, [id]);
       conn.release();
@@ -54,7 +53,7 @@ export class UserStore {
     }
   }
 
-  async create(u: User): Promise<User> {
+  async create(u: User): Promise<Omit<User, 'user_password'>> {
     try {
       const conn = await client.connect();
       const sql =

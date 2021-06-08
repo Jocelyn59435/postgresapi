@@ -109,6 +109,7 @@ describe('Product Handler', () => {
     const response = await request
       .post('/products')
       .set('Authorization', `Bearer ${token}`)
+      .set('Accept', 'application/json')
       .send(productSample);
     expect(store.create).toHaveBeenCalledWith(productSample);
     expect(response.status).toBe(200);
