@@ -9,7 +9,6 @@
     "lint": "eslint . --ext .ts",
     "lint-and-fix": "eslint . --ext .ts --fix",
     "start": "nodemon src/server.ts",
-    "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess 'node ./dist/server.js'",
     "test": "cross-env NODE_ENV=test db-migrate db:create collection_test && db-migrate --env test up && jasmine-ts && db-migrate db:drop collection_test"
   },
   "author": "Udacity",
